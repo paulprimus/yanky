@@ -1,0 +1,8 @@
+[package]
+name = "yanky"
+version = "0.1.0"
+authors = ["Paul Primus <paul.pacher@gmail.com>"]
+
+[dependencies]
+clap = "*"
+termion = "*"
