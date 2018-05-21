@@ -1,25 +1,37 @@
-use std::io::{Write, Read, stdin, stdout};
-use std::str;
+use std::io::{self, Read, Write};
 
-fn main() {
-    let stdout = stdout();
-    let  mut stdout_lock = stdout.lock();
-    let stdin = stdin();
+fn main() -> io::Result<()> {
     let mut buffer: Vec<u8> = Vec::new();
-    //let mut buffer: [u8; 500] = [0; 500];
+    let stdin = io::stdin();
+    let mut in_handle = stdin.lock();
 
-    let mut handle = stdin.lock();
-    match handle.read_to_end(&mut buffer) {
-        Ok(n) => println!("{}", n),
-        Err(_err) => println!("Fehler: {}", _err),
+    let stdout = io::stdout();
+    let mut out_handle = stdout.lock();
+
+    match in_handle.read_to_end(&mut buffer) {
+        Ok(v) => println!("{}", v),
+        Err(e) => println!("{}", e),
+    };
+
+    let mut word: Vec<u8> = Vec::new();
+    let mut all: Vec<Vec<u8>> = Vec::new();
+    for i in &buffer {
+       match i {
+           b'\x20' => {
+                all.push(word);
+                word = Vec::new();
+            },    
+           _ => {
+                    word.push(*i);
+                },     
+       };
     }
 
-    let s = match str::from_utf8(&buffer) {
-        Ok(v) => v,
-        Err(err) => panic!("Invalid UTF-8 sequence: {}", err),
+    for i in &all {
+    match out_handle.write(&i) {
+        Ok(_) =>  continue,
+        Err(e) => println!("{}", e),
     };
-    println!("{}\n\n",s );
-
-   stdout_lock.write_all(&buffer).unwrap();
-    //}
+    }
+    Ok(())
 }
