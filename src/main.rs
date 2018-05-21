@@ -16,22 +16,23 @@ fn main() -> io::Result<()> {
     let mut word: Vec<u8> = Vec::new();
     let mut all: Vec<Vec<u8>> = Vec::new();
     for i in &buffer {
-       match i {
-           b'\x20' => {
+        match i {
+            b'\x20' => {
+                word.push(b'\x0a');
                 all.push(word);
                 word = Vec::new();
-            },    
-           _ => {
-                    word.push(*i);
-                },     
-       };
+            }
+            _ => {
+                word.push(*i);
+            }
+        };
     }
 
     for i in &all {
-    match out_handle.write(&i) {
-        Ok(_) =>  continue,
-        Err(e) => println!("{}", e),
-    };
+        match out_handle.write(&i) {
+            Ok(_) => continue,
+            Err(e) => println!("{}", e),
+        };
     }
     Ok(())
 }
