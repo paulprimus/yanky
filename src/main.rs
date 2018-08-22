@@ -5,19 +5,21 @@ use std::io::{self, Read, Write};
 
 const BLANK: &'static u8 = &b'\x20';
 const LINE_BREAK: &'static u8 = &b'\x0a';
+const BACK_GROUND_GREEN: u8 = 42;
 
 fn main() -> io::Result<()> {
     let all: Vec<Vec<Vec<u8>>> = read_stdin();
-
     write_stdout(&all);
     Ok(())
 }
+
 
 fn read_stdin() -> Vec<Vec<Vec<u8>>> {
     let mut buffer: Vec<u8> = Vec::new();
     let stdin = io::stdin();
     let mut in_handle = stdin.lock();
-    let save = termion::cursor::Save;
+
+
     match in_handle.read_to_end(&mut buffer) {
         Ok(v) => println!("{}", v),
         Err(e) => println!("{}", e),
@@ -38,8 +40,6 @@ fn read_stdin() -> Vec<Vec<Vec<u8>>> {
                 line = Vec::new();
             }
             _ => {
-
-                //     word.push(*i);
             }
         };
     }
@@ -48,10 +48,13 @@ fn read_stdin() -> Vec<Vec<Vec<u8>>> {
     return all;
 }
 
-fn write_stdout(all: &Vec<Vec<Vec<u8>>>) {
+fn write_stdout(all: &Vec<Vec<Vec<u8>>>)  {
     let stdout = io::stdout();
     let mut out_handle = stdout.lock();
-
+    //write!(out_handle,"{}",termion::cursor::Save);
+    let s: Vec<u8> = vec![BACK_GROUND_GREEN];
+   out_handle.write(&s);
+    
     for line in all {
         for word in line {
             match out_handle.write(&word) {
@@ -60,6 +63,7 @@ fn write_stdout(all: &Vec<Vec<Vec<u8>>>) {
             };
         }
     }
+    println!("asdfasdf" );
+   // write!(out_handle,"{}",termion::cursor::Restore);
 
-     write!(out_handle,"{}",termion::cursor::Restore);
 }
