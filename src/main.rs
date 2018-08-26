@@ -1,15 +1,14 @@
 #[cfg(unix)]
-extern crate termion;
+//extern crate termion;
 
 use std::io::{self, Read, Write};
 
 const BLANK: &'static u8 = &b'\x20';
 const LINE_BREAK: &'static u8 = &b'\x0a';
-const BACK_GROUND_GREEN: u8 = 42;
 
 fn main() -> io::Result<()> {
     let all: Vec<Vec<Vec<u8>>> = read_stdin();
-    write_stdout(&all);
+    write_stdout(&all)?;
     Ok(())
 }
 
@@ -48,12 +47,15 @@ fn read_stdin() -> Vec<Vec<Vec<u8>>> {
     return all;
 }
 
-fn write_stdout(all: &Vec<Vec<Vec<u8>>>)  {
+fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
     let stdout = io::stdout();
     let mut out_handle = stdout.lock();
-    //write!(out_handle,"{}",termion::cursor::Save);
-    let s: Vec<u8> = vec![BACK_GROUND_GREEN];
-   out_handle.write(&s);
+
+     
+    out_handle.write(b"\x1B[38;5;206;48;5;57m")?;
+  
+    //let s: Vec<u8> = vec![BACK_GROUND_GREEN];
+  // out_handle.write(&s);
     
     for line in all {
         for word in line {
@@ -63,7 +65,9 @@ fn write_stdout(all: &Vec<Vec<Vec<u8>>>)  {
             };
         }
     }
+    out_handle.write(b"\x1B[0m")?;
     println!("asdfasdf" );
+      println!("asdfasdf" );
    // write!(out_handle,"{}",termion::cursor::Restore);
-
+     Ok(())
 }
