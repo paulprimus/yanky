@@ -50,8 +50,7 @@ fn read_stdin() -> Vec<Vec<Vec<u8>>> {
 fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
     let stdout = io::stdout();
     let mut out_handle = stdout.lock();
-
-     
+    
     out_handle.write(b"\x1B[38;5;206;48;5;57m")?;
   
     //let s: Vec<u8> = vec![BACK_GROUND_GREEN];
@@ -67,7 +66,15 @@ fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
     }
     out_handle.write(b"\x1B[0m")?;
     println!("asdfasdf" );
-      println!("asdfasdf" );
+    println!("asdfasdf" );
    // write!(out_handle,"{}",termion::cursor::Restore);
      Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
 }
