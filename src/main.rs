@@ -1,7 +1,9 @@
-#[cfg(unix)]
-//extern crate termion;
 
 use std::io::{self, Read, Write};
+#[macro_use]
+mod screen;
+#[macro_use]
+mod color;
 
 const BLANK: &'static u8 = &b'\x20';
 const LINE_BREAK: &'static u8 = &b'\x0a';
@@ -49,13 +51,9 @@ fn read_stdin() -> Vec<Vec<Vec<u8>>> {
 
 fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
     let stdout = io::stdout();
-    let mut out_handle = stdout.lock();
-    
-    out_handle.write(b"\x1B[38;5;206;48;5;57m")?;
-  
-    //let s: Vec<u8> = vec![BACK_GROUND_GREEN];
-  // out_handle.write(&s);
-    
+    let mut out_handle = stdout.lock();   
+    out_handle.write(color::Gelb.as_ref())?;
+
     for line in all {
         for word in line {
             match out_handle.write(&word) {
@@ -64,10 +62,9 @@ fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
             };
         }
     }
-    out_handle.write(b"\x1B[0m")?;
-    println!("asdfasdf" );
-    println!("asdfasdf" );
-   // write!(out_handle,"{}",termion::cursor::Restore);
+    out_handle.write(screen::Reset.as_ref())?;
+    out_handle.write(screen::DeleteLine.as_ref)?;
+
      Ok(())
 }
 

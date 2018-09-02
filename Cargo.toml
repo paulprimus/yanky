@@ -6,4 +6,4 @@ authors = ["Paul Primus <paul.pacher@gmail.com>"]
 [dependencies]
 
 [target.'cfg(unix)'.dependencies]
-termion = "*"
+#termion = "*"
