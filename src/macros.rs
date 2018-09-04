@@ -1,4 +1,7 @@
 
+use std::fmt;
+/// Create a CSI-introduced sequence.
+
 macro_rules! csi {
     ($( $l:expr ),*) => { concat!("\x1B[", $( $l ),*) };
 }
@@ -27,4 +30,14 @@ macro_rules! derive_csi_sequence {
 }
 
 
+
+// Farbe
+derive_csi_sequence!("Farbe Gelb", Blau, "48;5;136m");
+
+// Reset
+//derive_csi_sequence!("Reset",Reset, "0m");
+
+// Löschen
+//derive_csi_sequence!("Alles löschen",DeleteAll, "2J");
+//derive_csi_sequence!("Zeile löschen",DeleteLine, "0K");
 

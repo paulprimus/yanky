@@ -1,8 +1,9 @@
 
 use std::io::{self, Read, Write};
+
 #[macro_use]
+mod macros;
 mod screen;
-#[macro_use]
 mod color;
 
 const BLANK: &'static u8 = &b'\x20';
@@ -63,7 +64,7 @@ fn write_stdout(all: &Vec<Vec<Vec<u8>>>) -> io::Result<()>  {
         }
     }
     out_handle.write(screen::Reset.as_ref())?;
-    out_handle.write(screen::DeleteLine.as_ref)?;
+    out_handle.write(screen::DeleteLine.as_ref())?;
 
      Ok(())
 }

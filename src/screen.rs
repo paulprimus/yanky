@@ -1,7 +1,8 @@
+
 use std::fmt;
 
 // Reset
-derive_csi_sequence!("Reset",Reset, "0m");
+ derive_csi_sequence!("Reset",Reset, "0m");
 
 // Löschen
 derive_csi_sequence!("Alles löschen",DeleteAll, "2J");
