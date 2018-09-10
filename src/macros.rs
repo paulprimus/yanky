@@ -1,7 +1,5 @@
 
-use std::fmt;
 /// Create a CSI-introduced sequence.
-
 macro_rules! csi {
     ($( $l:expr ),*) => { concat!("\x1B[", $( $l ),*) };
 }
@@ -26,13 +24,17 @@ macro_rules! derive_csi_sequence {
         impl AsRef<str> for $name {
             fn as_ref(&self) -> &'static str { csi!($value) }
         }
+
+        impl $name {
+            pub fn as_my_vec(&self) -> Vec<u8> {csi!($value).as_bytes().to_vec() }
+        }
     };
 }
 
 
 
 // Farbe
-derive_csi_sequence!("Farbe Gelb", Blau, "48;5;136m");
+// derive_csi_sequence!("Farbe Gelb", Blau, "48;5;136m");
 
 // Reset
 //derive_csi_sequence!("Reset",Reset, "0m");
