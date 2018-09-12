@@ -25,9 +25,9 @@ macro_rules! derive_csi_sequence {
             fn as_ref(&self) -> &'static str { csi!($value) }
         }
 
-        impl $name {
-            pub fn as_my_vec(&self) -> Vec<u8> {csi!($value).as_bytes().to_vec() }
-        }
+        // impl $name {
+        //     pub fn as_my_vec(&self) -> Vec<u8> {csi!($value).as_bytes().to_vec() }
+        // }
     };
 }
 
