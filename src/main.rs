@@ -1,6 +1,4 @@
-use std::collections::BTreeMap;
 use std::io::{self, Read, Write};
-use std::fmt;
 
 #[macro_use]
 mod macros;
@@ -12,7 +10,7 @@ const LINE_BREAK: &'static u8 = &b'\x0a';
 
 fn main() -> io::Result<()> {
     let all: Vec<Vec<u8>> = read_stdin();
-    write_stdout(&all, 2u32)?;
+    write_stdout(&all, 4usize)?;
     Ok(())
 }
 
@@ -52,35 +50,20 @@ fn read_stdin() -> Vec<Vec<u8>> {
 fn write_stdout(all: &Vec<Vec<u8>>, highlighted: usize) -> io::Result<()> {
     let stdout = io::stdout();
     let mut out_handle = stdout.lock();
-    // out_handle.write(color::Gelb.as_ref())?;
-
-    // for line in all {
-    //     for word in line {
-    //         match out_handle.write(&word) {
-    //             Ok(_) => continue,
-    //             Err(e) => println!("{}", e),
-    //         };
-    //     }
-    // }
-
-    let word: Vec<u8> = all[highlighted];
-    let new_word: Vec<u8> = Vec::new();
-    for v in color::Gelb.as_ref() {
-        new_word.push(v);
-    }
-
-
+    let mut count: usize = 0;
     for word in all.iter() {
-        
+         count = count + 1;
+        if highlighted == count {
+            out_handle.write(color::Gelb.as_ref())?;
+        }
         match out_handle.write(word) {
-            Ok(_) => continue,
+            Ok(_) => (),
             Err(e) => println!("{}", e),
         };
-       
+        if highlighted == count {
+            out_handle.write(color::Standard.as_ref())?;
+        }       
     }
-
-    out_handle.write(screen::Reset.as_ref())?;
-    out_handle.write(screen::DeleteLine.as_ref())?;
     Ok(())
 }
 
