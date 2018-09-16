@@ -1,9 +1,13 @@
 use std::io::{self, Read, Write};
+use std::sync::mpsc::{Receiver};
+use std::string;
 
 #[macro_use]
 mod macros;
 mod color;
 mod screen;
+
+mod readinput;
 
 const BLANK: &'static u8 = &b'\x20';
 const LINE_BREAK: &'static u8 = &b'\x0a';
@@ -11,7 +15,11 @@ const LINE_BREAK: &'static u8 = &b'\x0a';
 fn main() -> io::Result<()> {
     let all: Vec<Vec<u8>> = read_stdin();
     write_stdout(&all, 4usize)?;
-    Ok(())
+    let rx: Receiver<string::String> = readinput::read_user_input(); 
+    loop {
+    println!("Got: {}", rx.recv().unwrap());
+    }
+    //Ok(())
 }
 
 fn read_stdin() -> Vec<Vec<u8>> {
@@ -25,11 +33,7 @@ fn read_stdin() -> Vec<Vec<u8>> {
     };
 
     let mut word: Vec<u8> = Vec::new();
-    // let mut line: Vec<Vec<u8>> = Vec::new();
-    // let mut all: Vec<Vec<Vec<u8>>> = Vec::new();
-
     let mut words: Vec<Vec<u8>> = Vec::new();
-
     for v in &buffer {
         word.push(*v);
         match v {
