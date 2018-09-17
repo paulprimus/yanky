@@ -1,6 +1,4 @@
 use std::io::{self, Read, Write};
-use std::sync::mpsc::{Receiver};
-use std::string;
 
 #[macro_use]
 mod macros;
@@ -13,13 +11,11 @@ const BLANK: &'static u8 = &b'\x20';
 const LINE_BREAK: &'static u8 = &b'\x0a';
 
 fn main() -> io::Result<()> {
+    
     let all: Vec<Vec<u8>> = read_stdin();
     write_stdout(&all, 4usize)?;
-    let rx: Receiver<string::String> = readinput::read_user_input(); 
-    loop {
-    println!("Got: {}", rx.recv().unwrap());
-    }
-    //Ok(())
+    readinput::read_user_input()?;
+    Ok(())
 }
 
 fn read_stdin() -> Vec<Vec<u8>> {
