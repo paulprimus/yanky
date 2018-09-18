@@ -1,7 +1,6 @@
 use std::io::{self, BufRead, Write};
 use std::sync::mpsc;
 use std::thread;
-use std::string;
 
 
 pub fn read_user_input() -> io::Result<()> {
