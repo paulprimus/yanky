@@ -3,8 +3,8 @@ use std::sync::mpsc;
 use std::thread;
 
 
-pub fn read_user_input() -> io::Result<()> {
-     let (tx, rx) = mpsc::channel();
+pub fn read_user_input(tx: mpsc::Sender<String>) -> io::Result<()> {
+    // let (tx, rx) = mpsc::channel();
 
     thread::spawn(move || {
        println!("Printing");
@@ -22,9 +22,9 @@ pub fn read_user_input() -> io::Result<()> {
     //     Ok(v) =>return  v,
     //     Err(e) => println!("Fehler: {}", e)
     // };
-    let value = rx.recv().unwrap();
-    let stdout = io::stdout();
-    let mut out_handle= stdout.lock();
-    out_handle.write(value.as_ref())?;
+    // let value = rx.recv().unwrap();
+    // let stdout = io::stdout();
+    // let mut out_handle= stdout.lock();
+    // out_handle.write(value.as_ref())?;
     Ok(())
 }
