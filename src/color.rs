@@ -1,4 +1,3 @@
-
 use std::fmt;
 
 derive_csi_sequence!("Standard Hintergrundfarbe", Standard, "49m");

@@ -1,4 +1,3 @@
-
 /// Create a CSI-introduced sequence.
 macro_rules! csi {
     ($( $l:expr ),*) => { concat!("\x1B[", $( $l ),*) };
@@ -18,16 +17,18 @@ macro_rules! derive_csi_sequence {
         }
 
         impl AsRef<[u8]> for $name {
-            fn as_ref(&self) -> &'static [u8] { csi!($value).as_bytes() }
+            fn as_ref(&self) -> &'static [u8] {
+                csi!($value).as_bytes()
+            }
         }
 
         impl AsRef<str> for $name {
-            fn as_ref(&self) -> &'static str { csi!($value) }
+            fn as_ref(&self) -> &'static str {
+                csi!($value)
+            }
         }
     };
 }
-
-
 
 // Farbe
 // derive_csi_sequence!("Farbe Gelb", Blau, "48;5;136m");
@@ -38,4 +39,3 @@ macro_rules! derive_csi_sequence {
 // Löschen
 //derive_csi_sequence!("Alles löschen",DeleteAll, "2J");
 //derive_csi_sequence!("Zeile löschen",DeleteLine, "0K");
-
